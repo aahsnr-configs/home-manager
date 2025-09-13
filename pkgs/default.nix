@@ -13,6 +13,7 @@
     nixfmt
     nixpkgs-fmt
     proselint
+    python313Packages.pynvim
     tectonic
     texlab
     textlint
