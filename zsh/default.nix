@@ -101,7 +101,8 @@
             }
 
             source ${pkgs.zsh-vi-mode}/share/zsh-vi-mode/zsh-vi-mode.plugin.zsh
-            source ${pkgs.zsh-fzf-tab}/share/zsh-fzf-tab/zsh-fzf-tab.plugin.zsh
+            source ${pkgs.zsh-fzf-tab}/share/fzf-tab/fzf-tab.plugin.zsh
+           source ${pkgs.zsh-fzf-tab}/share/fzf-tab/fzf-tab.zsh
     '';
   };
 }
