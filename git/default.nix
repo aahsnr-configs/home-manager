@@ -1,4 +1,3 @@
-# gh.nix
 { pkgs, ... }:
 {
   # -------------------------------------------------------------------
@@ -11,7 +10,7 @@
       "github.com-aahsnr-configs" = {
         hostname = "github.com";
         user = "git";
-        identityFile = "~/.ssh/id_ed25519_aahsnr_configs";
+        identityFile = "~/.ssh/id_rsa_aahsnr_configs";
         extraOptions = {
           AddKeysToAgent = "yes";
           IdentitiesOnly = "yes";
@@ -20,7 +19,7 @@
       "github.com-aahsnr-personal" = {
         hostname = "github.com";
         user = "git";
-        identityFile = "~/.ssh/id_ed25519_aahsnr_personal";
+        identityFile = "~/.ssh/id_rsa_aahsnr_personal";
         extraOptions = {
           AddKeysToAgent = "yes";
           IdentitiesOnly = "yes";
@@ -29,7 +28,7 @@
       "github.com-aahsnr-work" = {
         hostname = "github.com";
         user = "git";
-        identityFile = "~/.ssh/id_ed25519_aahsnr_work";
+        identityFile = "~/.ssh/id_rsa_aahsnr_work";
         extraOptions = {
           AddKeysToAgent = "yes";
           IdentitiesOnly = "yes";
@@ -38,7 +37,7 @@
       "github.com-aahsnr-common" = {
         hostname = "github.com";
         user = "git";
-        identityFile = "~/.ssh/id_ed25519_aahsnr_common";
+        identityFile = "~/.ssh/id_rsa_aahsnr_common";
         extraOptions = {
           AddKeysToAgent = "yes";
           IdentitiesOnly = "yes";
@@ -144,11 +143,11 @@
     generate_key() {
         local key_name="$1"
         local email="$2"
-        local key_path="$HOME/.ssh/id_ed25519_$key_name"
+        local key_path="$HOME/.ssh/id_rsa_$key_name"
 
         if [[ ! -f "$key_path" ]]; then
-            echo "Generating Ed25519 SSH key for '$key_name'..."
-            ssh-keygen -t ed25519 -C "$email" -f "$key_path" -N ""
+            echo "Generating RSA 4096 SSH key for '$key_name'..."
+            ssh-keygen -t rsa -b 4096 -C "$email" -f "$key_path" -N ""
             chmod 600 "$key_path"
             chmod 644 "$key_path.pub"
             echo "-> Generated key: $key_path"
@@ -169,10 +168,10 @@
     echo ""
     echo "Next Steps:"
     echo "1. Add the public keys to your respective GitHub accounts:"
-    echo "   - Configs:  cat ~/.ssh/id_ed25519_aahsnr_configs.pub"
-    echo "   - Personal: cat ~/.ssh/id_ed25519_aahsnr_personal.pub"
-    echo "   - Work:     cat ~/.ssh/id_ed25519_aahsnr_work.pub"
-    echo "   - Common:   cat ~/.ssh/id_ed25519_aahsnr_common.pub"
+    echo "   - Configs:  cat ~/.ssh/id_rsa_aahsnr_configs.pub"
+    echo "   - Personal: cat ~/.ssh/id_rsa_aahsnr_personal.pub"
+    echo "   - Work:     cat ~/.ssh/id_rsa_aahsnr_work.pub"
+    echo "   - Common:   cat ~/.ssh/id_rsa_aahsnr_common.pub"
     echo ""
     echo "2. Authenticate each account with the GitHub CLI (run these one by one):"
     echo "   gh auth login --hostname github.com"
