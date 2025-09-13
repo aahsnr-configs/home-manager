@@ -100,9 +100,8 @@
               tldr --list | fzf --preview 'tldr {1}' --preview-window right:70%
             }
 
-      if uwsm check may-start && uwsm select; then
-      	exec uwsm start default
-      fi
+            source ${pkgs.zsh-vi-mode}/share/zsh-vi-mode/zsh-vi-mode.plugin.zsh
+            source ${pkgs.zsh-fzf-tab}/share/zsh-fzf-tab/zsh-fzf-tab.plugin.zsh
     '';
   };
 }
