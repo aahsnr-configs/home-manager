@@ -21,15 +21,12 @@
       LANG = "en_US.UTF-8";
     };
 
-    shell.enableZshIntegration = true;
-
     # Consolidate PATH from export.zsh
     sessionPath = [
       "$HOME/.cargo/bin"
       "$HOME/go/bin"
       "$HOME/.bun/bin"
       "$HOME/.local/bin"
-      "$HOME/.local/bin/hypr"
       "$HOME/.config/emacs/bin"
       "$HOME/.npm-global/bin"
       "$HOME/.local/share/flatpak/exports/bin"
@@ -67,6 +64,7 @@
     ./pay-respects
     ./pkgs
     ./ripgrep
+    ./scripts
     ./starship
     ./texlive
     ./theming
