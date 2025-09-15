@@ -54,7 +54,6 @@
     ./btop
     ./catppuccin
     ./dev
-    ./emoji
     ./eza
     ./fd-find
     ./fonts

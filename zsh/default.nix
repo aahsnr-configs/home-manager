@@ -59,6 +59,7 @@
       sctle = "sudo systemctl enable";
       sctls = "sudo systemctl start";
       gg = "lazygit";
+      ".." = "z ..";
     };
     initContent = ''
             # ===== Zsh Options =====
