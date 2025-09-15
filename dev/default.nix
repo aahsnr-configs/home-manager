@@ -12,6 +12,7 @@
     luarocks
     ripgrep
     statix
+    python313Packages.pynvim
   ];
 
   programs.direnv = {
