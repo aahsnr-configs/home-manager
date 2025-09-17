@@ -24,7 +24,7 @@
     };
 
     font = {
-      name = "JetBrainsMono Nerd Font";
+      name = "JetBrainsMono Nerd Font Medium";
       size = 13;
     };
 

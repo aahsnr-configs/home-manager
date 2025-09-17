@@ -320,7 +320,7 @@ in
       exit 1
     '')
 
-    (mkScript "workspace_action" ''
+    (mkScript "wsaction" ''
       #!/usr/bin/env bash
       curr_workspace="$(hyprctl activeworkspace -j | jq -r ".id")"
       dispatcher="$1"
