@@ -1,0 +1,288 @@
+"$schema" = 'https://starship.rs/config-schema.json'
+
+# Inserts a blank line between shell prompts
+add_newline = false
+
+# Set the main prompt format
+format = """
+$username\
+$hostname\
+$kubernetes\
+$directory\
+$git_branch\
+${custom.giturl}\
+$git_commit\
+$git_state\
+$git_metrics\
+$git_status\
+$docker_context\
+${custom.docker}\
+$all\
+$character"""
+
+# Character entry (the prompt symbol)
+[character]
+success_symbol = "[➜](bold green)"
+error_symbol = "[➜](bold red)"
+
+# Duration entry
+[cmd_duration]
+min_time = 10000
+format = "[󰔟 $duration](bold cyan)"
+
+# Git entry
+[git_metrics]
+added_style = "green"
+deleted_style = "red"
+format = '(\([+$added]($added_style)/[-$deleted]($deleted_style)\))'
+
+[git_status]
+ahead = '[ $count](bold green) '
+conflicted = '[󰊛 ](bold red) '
+untracked = '[ $count](bold purple) '
+staged = '[ $count](bold green) '
+stashed = '[ $count](cyan) '
+deleted = '[ $count](bold red) '
+modified = '[ $count](bold yellow) '
+behind = '[ $count](bold yellow) '
+renamed = '[󰬴 $count](bold blue) '
+up_to_date = '[](bold green) '
+diverged = '[ $ahead_count  $behind_count ](bold red) '
+format = '([$all_status$ahead_behind]($style))'
+
+[git_branch]
+symbol = " "
+
+[hg_branch]
+symbol = " "
+
+[fossil_branch]
+symbol = " "
+
+# Gcloud entry
+[gcloud]
+format = "on [$symbol$domain]($style) "
+symbol = " "
+style = "bold blue"
+
+# Directory entry
+[directory]
+read_only = " 󰌾 "
+truncation_length = 3
+
+# Custom entries
+[custom.neovim]
+command = 'bob ls | rg Used | awk "{print \$2}"' # shows output of command
+detect_folders = ["lua"]
+style = "green"
+format = "[ $output ]($style)"
+shell = ["bash"]
+
+[custom.hypr]
+style = "blue"
+format = "[ ]($style)"
+detect_files = ["hyprland.conf"]
+
+[custom.docker]
+files = ["Dockerfile", "docker-compose.yml", "docker-compose.yaml"]
+style = "bold blue"
+format = "[ ]($style)"
+
+[custom.giturl]
+description = "Display symbol for remote Git server"
+command = "check-git-remote"
+when = 'git rev-parse --is-inside-work-tree 2> /dev/null'
+shell = ["bash", "--noprofile", "--norc"]
+format = "at $output  "
+
+# Nerd fonts preset
+[aws]
+symbol = "  "
+disabled = true
+
+[buf]
+symbol = " "
+
+[c]
+symbol = " "
+
+[conda]
+symbol = " "
+
+[crystal]
+symbol = " "
+
+[dart]
+symbol = " "
+
+[docker_context]
+symbol = " "
+
+[elixir]
+symbol = " "
+
+[elm]
+symbol = " "
+
+[fennel]
+symbol = " "
+
+[golang]
+symbol = " "
+
+[guix_shell]
+symbol = " "
+
+[haskell]
+symbol = " "
+
+[haxe]
+symbol = " "
+
+[hostname]
+ssh_symbol = " "
+
+[java]
+symbol = " "
+
+[julia]
+symbol = " "
+
+[kotlin]
+symbol = " "
+
+[lua]
+symbol = " "
+
+[memory_usage]
+symbol = "󰍛 "
+
+[meson]
+symbol = "󰔷 "
+
+[nim]
+symbol = "󰆥 "
+
+[nix_shell]
+symbol = " "
+
+[nodejs]
+symbol = " "
+
+[ocaml]
+symbol = " "
+
+[os.symbols]
+Alpaquita = " "
+Alpine = " "
+AlmaLinux = " "
+Amazon = " "
+Android = " "
+Arch = " "
+Artix = " "
+CentOS = " "
+Debian = " "
+DragonFly = " "
+Emscripten = " "
+EndeavourOS = " "
+Fedora = " "
+FreeBSD = " "
+Garuda = "󰛓 "
+Gentoo = " "
+HardenedBSD = "󰞌 "
+Illumos = "󰈸 "
+Kali = " "
+Linux = " "
+Mabox = " "
+Macos = " "
+Manjaro = " "
+Mariner = " "
+MidnightBSD = " "
+Mint = " "
+NetBSD = " "
+NixOS = " "
+OpenBSD = "󰈺 "
+openSUSE = " "
+OracleLinux = "󰌷 "
+Pop = " "
+Raspbian = " "
+Redhat = " "
+RedHatEnterprise = " "
+RockyLinux = " "
+Redox = "󰀘 "
+Solus = "󰠳 "
+SUSE = " "
+Ubuntu = " "
+Unknown = " "
+Windows = "󰍲 "
+
+[package]
+symbol = "󰏗 "
+
+[perl]
+symbol = " "
+
+[php]
+symbol = " "
+
+[pijul_channel]
+symbol = " "
+
+[python]
+symbol = " "
+
+[rlang]
+symbol = "󰟔 "
+
+[ruby]
+symbol = " "
+
+[rust]
+symbol = " "
+
+[scala]
+symbol = " "
+
+[swift]
+symbol = " "
+
+[zig]
+symbol = " "
+
+# Theme: Tokyo Night
+# For a lighter theme, replace all occurrences of '#1a1b26' with '#d5d6db'
+# and '#c0caf5' with '#343b58'
+[palettes.tokyonight_night]
+bg0 = "#1a1b26"
+bg1 = "#1f2335"
+bg2 = "#24283b"
+bg3 = "#292e42"
+bg_red = "#2f2026"
+diff_add = "#1c2a23"
+diff_del = "#302025"
+diff_mod = "#1c2633"
+
+fg = "#c0caf5"
+red = "#f7768e"
+orange = "#ff9e64"
+yellow = "#e0af68"
+green = "#9ece6a"
+blue = "#7aa2f7"
+blue0 = "#3d59a1"
+blue1 = "#2e4174"
+blue2 = "#41a6b5"
+blue5 = "#89ddff"
+blue6 = "#b4f9f8"
+blue7 = "#394b70"
+cyan = "#7dcfff"
+magenta = "#bb9af7"
+magenta2 = "#ff007c"
+purple = "#9d7cd8"
+teal = "#449dab"
+git_branch = "#7aa2f7"
+
+comment = "#565f89"
+dark3 = "#3b4261"
+dark5 = "#545c7e"
+
+palette = "tokyonight_night"

@@ -1,16 +1,35 @@
 # ~/.config/home-manager/yazi/default.nix
-{ pkgs, ... }: {
-  home.packages = with pkgs; [ rich-cli ouch ]; # Preview dependencies
+{ pkgs, ... }:
+
+{
+  # Add dependencies for file previews
+  home.packages = with pkgs; [
+    rich-cli # For rich text previews
+    ouch # For archive previews
+  ];
+
   programs.yazi = {
     enable = true;
     enableZshIntegration = true;
+
+    # Enable desired plugins
     plugins = with pkgs.yaziPlugins; {
-      inherit full-border toggle-pane smart-enter chmod;
-      inherit rich-preview ouch;
-      inherit jump-to-char;
-      inherit git lazygit;
-      inherit starship yatline;
+      inherit
+        full-border
+        toggle-pane
+        smart-enter
+        chmod
+        rich-preview
+        ouch
+        jump-to-char
+        git
+        lazygit
+        starship
+        yatline
+        ;
     };
+
+    # Core yazi settings
     settings = {
       manager = {
         show_hidden = true;
@@ -18,19 +37,30 @@
         sort_dir_first = true;
         linemode = "size";
       };
+
+      # Define how to open different file types
       opener = {
-        edit = [{
-          run = ''nvim "$@"'';
-          block = true;
-        }];
-        image = [{ run = ''imv "$@"''; }];
-        video = [{ run = ''mpv "$@"''; }];
-        audio = [{ run = ''mpv "$@"''; }];
-        document = [{ run = ''zathura "$@"''; }];
-        archive =
-          [{ run = ''${pkgs.file-roller}/bin/file-roller "$@"''; }];
-        fallback = [{ run = ''${pkgs.xdg-utils}/bin/xdg-open "$@"''; }];
+        edit = [
+          {
+            run = ''nvim "$@"'';
+            block = true; # Wait for nvim to close
+          }
+        ];
+        image = [ { run = ''imv "$@"''; } ];
+        video = [
+          {
+            run = ''mpv "$@"'';
+            block = false; # Do not block yazi
+            orphan = true; # Detach the mpv process
+          }
+        ];
+        audio = [ { run = ''mpv "$@"''; } ];
+        document = [ { run = ''zathura "$@"''; } ];
+        archive = [ { run = ''${pkgs.file-roller}/bin/file-roller "$@"''; } ];
+        fallback = [ { run = ''${pkgs.xdg-utils}/bin/xdg-open "$@"''; } ];
       };
+
+      # Rules to associate file types with openers
       open.rules = [
         {
           name = "*/";
@@ -70,6 +100,8 @@
         }
       ];
     };
+
+    # Custom keybindings
     keymap = {
       manager.prepend = [
         # Navigation
@@ -98,6 +130,7 @@
           run = "arrow bot";
           desc = "Move to bottom";
         }
+
         # File operations
         {
           on = "y";
@@ -115,7 +148,10 @@
           desc = "Paste";
         }
         {
-          on = [ "d" "d" ];
+          on = [
+            "d"
+            "d"
+          ];
           run = "remove";
           desc = "Remove";
         }
@@ -129,6 +165,7 @@
           run = "rename";
           desc = "Rename";
         }
+
         # Tabs
         {
           on = "t";
@@ -150,6 +187,7 @@
           run = "tab_switch 1 --relative";
           desc = "Next tab";
         }
+
         # Miscellaneous
         {
           on = "q";

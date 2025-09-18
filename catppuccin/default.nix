@@ -43,10 +43,10 @@
       flavor = "macchiato";
     };
 
-    starship = {
-      enable = true;
-      flavor = "macchiato";
-    };
+    # starship = {
+    #   enable = true;
+    #   flavor = "macchiato";
+    # };
 
     yazi = {
       enable = true;

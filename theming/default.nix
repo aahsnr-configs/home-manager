@@ -1,4 +1,5 @@
-{ config, pkgs, ... }: {
+{ config, pkgs, ... }:
+{
   gtk = {
     enable = true;
 
@@ -19,7 +20,7 @@
     # };
 
     iconTheme = {
-      package = pkgs.papirus-icon-theme;
+      # package = pkgs.papirus-icon-theme;
       name = "Papirus-Dark";
     };
 
@@ -54,7 +55,7 @@
 
     gtk4.extraConfig.gtk-application-prefer-dark-theme = 1;
   };
-
+  # remove for the time-being
   # qt = {
   #   enable = true;
   #   platformTheme.name = "kde";
