@@ -13,20 +13,20 @@
     };
     settings = {
       manager = {
-        show_hidden = false;
+        show_hidden = true;
         sort_by = "natural";
         sort_dir_first = true;
         linemode = "size";
       };
       opener = {
         edit = [{
-          run = ''${pkgs.neovim}/bin/nvim "$@"'';
+          run = ''nvim "$@"'';
           block = true;
         }];
-        image = [{ run = ''${pkgs.imv}/bin/imv "$@"''; }];
-        video = [{ run = ''${pkgs.mpv}/bin/mpv "$@"''; }];
-        audio = [{ run = ''${pkgs.mpv}/bin/mpv "$@"''; }];
-        document = [{ run = ''${pkgs.zathura}/bin/zathura "$@"''; }];
+        image = [{ run = ''imv "$@"''; }];
+        video = [{ run = ''mpv "$@"''; }];
+        audio = [{ run = ''mpv "$@"''; }];
+        document = [{ run = ''zathura "$@"''; }];
         archive =
           [{ run = ''${pkgs.file-roller}/bin/file-roller "$@"''; }];
         fallback = [{ run = ''${pkgs.xdg-utils}/bin/xdg-open "$@"''; }];

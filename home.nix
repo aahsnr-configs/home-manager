@@ -56,6 +56,7 @@
     ./dev
     ./eza
     ./fd-find
+    ./fzf
     ./fonts
     ./git
     ./keyring
