@@ -1,5 +1,6 @@
 # ~/.config/home-manager/zsh/default.nix
-{ config, pkgs, ... }: {
+{ config, pkgs, ... }:
+{
   programs.zsh = {
     enable = true;
     autosuggestion.enable = true;
@@ -27,32 +28,12 @@
       music = "$HOME/Music";
       media = "/run/media/$USER";
     };
-    plugins = [
-      {
-        name = "zsh-vi-mode";
-        src = pkgs.zsh-vi-mode;
-      }
-      {
-        name = "fzf-tab";
-        src = pkgs.zsh-fzf-tab;
-      }
-      {
-        name = "zsh-autopair";
-        src = pkgs.zsh-autopair;
-      }
-      {
-        name = "zsh-nix-shell";
-        src = pkgs.zsh-nix-shell;
-      }
-    ];
     shellAliases = {
       rmi = "sudo rm -rf";
       vi = "nvim";
       du = "dust";
       grep = "rg";
       cat = "bat --paging=never";
-      nrs = "sudo nixos-rebuild switch";
-      nrb = "sudo nixos-rebuild boot";
       nixs = "nix-shell -p";
       hm-switch = "home-manager switch";
       sctl = "systemctl";
@@ -62,48 +43,58 @@
       ".." = "z ..";
     };
     initContent = ''
-            # ===== Zsh Options =====
-            setopt EXTENDED_HISTORY HIST_VERIFY PUSHD_IGNORE_DUPS
+      # ===== Zsh Options =====
+      setopt EXTENDED_HISTORY HIST_VERIFY PUSHD_IGNORE_DUPS
 
-            # ===== fzf-tab configuration =====
-            zstyle ':fzf-tab:complete:*' fzf-preview \
-              '[[ -f $realpath ]] && bat --color=always --style=numbers $realpath || eza --tree --level=2 $realpath'
+      # ===== fzf-tab configuration =====
+      zstyle ':fzf-tab:complete:*' fzf-preview \
+        '[[ -f $realpath ]] && bat --color=always --style=numbers $realpath || eza --tree --level=2 $realpath'
 
-            # ===== zsh-vi-mode configuration =====
-            ZVM_VI_INSERT_ESCAPE_BINDKEY=jk
+      # ===== zsh-vi-mode configuration =====
+      ZVM_VI_INSERT_ESCAPE_BINDKEY=jk
 
-            # ===== Helper Functions =====
+      # ===== Helper Functions =====
 
-            # Atuin search widget keybindings
-            bindkey -M vicmd '^R' _atuin_search_widget
-            bindkey -M viins '^R' _atuin_search_widget
+      # Atuin search widget keybindings
+      bindkey -M vicmd '^R' _atuin_search_widget
+      bindkey -M viins '^R' _atuin_search_widget
 
-            # Yazi cd on quit
-            function yy() {
-              local tmp="$ (mktemp -t "yazi-cwd.XXXXXX")"
-              yazi "$@" --cwd-file="$tmp"
-              if cwd="$(< "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
-                cd -- "$cwd"
-              fi
-              rm -f -- "$tmp"
-            }
-            compdef yy=yazi
+      # Yazi cd on quit
+      function yy() {
+        local tmp="$ (mktemp -t "yazi-cwd.XXXXXX")"
+        yazi "$@" --cwd-file="$tmp"
+        if cwd="$(< "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
+          cd -- "$cwd"
+        fi
+        rm -f -- "$tmp"
+      }
+      compdef yy=yazi
 
-            # Ripgrep with fzf
-            function rgfzf() {
-              rg --color=always --line-number "$@" | fzf --ansi \
-                --preview 'bat --style=numbers --color=always --line-range :500 {1}' \
-                --preview-window 'right:60%:wrap'
-            }
+      # Ripgrep with fzf
+      function rgfzf() {
+      rg --color=always --line-number "$@" | fzf --ansi \
+          --preview 'bat --style=numbers --color=always --line-range :500 {1}' \
+          --preview-window 'right:60%:wrap'
+      }
 
-            # tldr with fzf
-            function tldr-fzf() {
-              tldr --list | fzf --preview 'tldr {1}' --preview-window right:70%
-            }
+      # tldr with fzf
+      function tldr-fzf() {
+        tldr --list | fzf --preview 'tldr {1}' --preview-window right:70%
+      }
 
-            source ${pkgs.zsh-vi-mode}/share/zsh-vi-mode/zsh-vi-mode.plugin.zsh
-            source ${pkgs.zsh-fzf-tab}/share/fzf-tab/fzf-tab.plugin.zsh
-           source ${pkgs.zsh-fzf-tab}/share/fzf-tab/fzf-tab.zsh
+      source ${pkgs.zsh-autopair}/share/zsh/zsh-autopair/autopair.zsh
+      source ${pkgs.zsh-fzf-tab}/share/fzf-tab/fzf-tab.plugin.zsh
+      source ${pkgs.zsh-fzf-tab}/share/fzf-tab/fzf-tab.zsh
+      source ${pkgs.zsh-nix-shell}/share/zsh-nix-shell/nix-shell.plugin.zsh
+      source ${pkgs.zsh-vi-mode}/share/zsh-vi-mode/zsh-vi-mode.plugin.zsh
     '';
   };
+
+  home.packages = with pkgs; [
+    zsh-autopair
+    zsh-completions
+    zsh-fzf-tab
+    zsh-nix-shell
+    zsh-vi-mode
+  ];
 }

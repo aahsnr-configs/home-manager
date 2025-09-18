@@ -1,18 +1,12 @@
 # ~/.config/home-manager/dev/default.nix
-{ pkgs, ... }: {
+{ pkgs, ... }:
+{
   home.packages = with pkgs; [
     deadnix
-    delta
-    fd
-    nil
+    nixd
     nixfmt
     nixpkgs-fmt
-    nodejs_24
-    lua5_1
-    luarocks
-    ripgrep
     statix
-    python313Packages.pynvim
   ];
 
   programs.direnv = {

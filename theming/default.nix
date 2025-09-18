@@ -8,15 +8,15 @@
       package = pkgs.bibata-cursors;
     };
 
-    theme = {
-      package = pkgs.colloid-gtk-theme.override {
-        themeVariants = [ "orange" ];
-        colorVariants = [ "dark" ];
-        sizeVariants = [ "standard" ];
-        tweaks = [ "catppuccin" ];
-      };
-      name = "Colloid-Orange-Dark-Catppuccin";
-    };
+    # theme = {
+    #   package = pkgs.colloid-gtk-theme.override {
+    #     themeVariants = [ "orange" ];
+    #     colorVariants = [ "dark" ];
+    #     sizeVariants = [ "standard" ];
+    #     tweaks = [ "catppuccin" ];
+    #   };
+    #   name = "Colloid-Orange-Dark-Catppuccin";
+    # };
 
     iconTheme = {
       package = pkgs.papirus-icon-theme;
@@ -55,11 +55,11 @@
     gtk4.extraConfig.gtk-application-prefer-dark-theme = 1;
   };
 
-  qt = {
-    enable = true;
-    platformTheme.name = "kde";
-    style.name = "kvantum";
-  };
+  # qt = {
+  #   enable = true;
+  #   platformTheme.name = "kde";
+  #   style.name = "kvantum";
+  # };
 
   dconf.settings."org/gnome/desktop/interface".color-scheme = "prefer-dark";
 }
