@@ -40,6 +40,7 @@
       sctle = "sudo systemctl enable";
       sctls = "sudo systemctl start";
       gg = "lazygit";
+      pac-clean = "sudo pacman -Qdtq | sudo pacman -Rns -";
       ".." = "z ..";
     };
     initContent = ''

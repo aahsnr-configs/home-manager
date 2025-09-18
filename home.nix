@@ -57,7 +57,7 @@
     ./eza
     ./fd-find
     ./fzf
-    ./fonts
+    #./fonts
     ./git
     ./keyring
     ./lazygit
