@@ -1,7 +1,8 @@
-{ pkgs, ... }: {
+{ pkgs, ... }:
+{
   programs.tmux = {
     enable = true;
-    shell = "${pkgs.zsh}/bin/zsh";
+    shell = "${pkgs.fish}/bin/fish";
     aggressiveResize = true;
     baseIndex = 1;
     escapeTime = 0;

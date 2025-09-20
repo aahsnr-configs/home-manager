@@ -1,10 +1,10 @@
 # ~/.config/home-manager/fzf/default.nix
-{ ... }: {
+{ ... }:
+{
   programs.fzf = {
     enable = true;
-    enableZshIntegration = true;
-    defaultCommand =
-      "fd --type f --hidden --follow --exclude .git --exclude node_modules";
+    enableFishIntegration = true;
+    defaultCommand = "fd --type f --hidden --follow --exclude .git --exclude node_modules";
     defaultOptions = [
       "--height 40%"
       "--layout=reverse"

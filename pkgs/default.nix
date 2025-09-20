@@ -6,5 +6,7 @@
     nil
     nixfmt
     nixpkgs-fmt
+    zeromq
+    go
   ];
 }

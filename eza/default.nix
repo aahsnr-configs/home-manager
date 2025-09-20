@@ -1,11 +1,15 @@
 # ~/.config/home-manager/eza/default.nix
-{ ... }: {
+{ ... }:
+{
   programs.eza = {
     enable = true;
-    enableZshIntegration = true; # Manages aliases
+    enableFishIntegration = true; # Manages aliases
     git = true;
     icons = "auto";
-    extraOptions = [ "--group-directories-first" "--header" ];
+    extraOptions = [
+      "--group-directories-first"
+      "--header"
+    ];
     # The full, detailed Catppuccin theme is restored
     theme = {
       ui = {

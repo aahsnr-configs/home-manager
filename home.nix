@@ -57,7 +57,8 @@
     ./eza
     ./fd-find
     ./fzf
-    #./fonts
+    ./fonts
+    ./fish
     ./git
     ./keyring
     ./lazygit
@@ -72,7 +73,7 @@
     ./xdg
     ./yazi
     ./zoxide
-    ./zsh
+    #./zsh
   ];
 
   nixpkgs = {

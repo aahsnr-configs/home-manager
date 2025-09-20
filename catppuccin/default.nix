@@ -23,6 +23,11 @@
       flavor = "macchiato";
     };
 
+    fish = {
+      enable = true;
+      flavor = "macchiato";
+    };
+
     fzf = {
       enable = true;
       accent = "flamingo";
@@ -54,9 +59,9 @@
       flavor = "macchiato";
     };
 
-    zsh-syntax-highlighting = {
-      enable = true;
-      flavor = "macchiato";
-    };
+    # zsh-syntax-highlighting = {
+    #   enable = true;
+    #   flavor = "macchiato";
+    # };
   };
 }

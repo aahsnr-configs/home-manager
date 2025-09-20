@@ -10,7 +10,7 @@
 
   programs.yazi = {
     enable = true;
-    enableZshIntegration = true;
+    enableFishIntegration = true;
 
     # Enable desired plugins
     plugins = with pkgs.yaziPlugins; {
