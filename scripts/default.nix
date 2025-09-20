@@ -4,10 +4,26 @@ let
   # A helper function to package a shell script and add it to the user's path.
   mkScript = name: text: pkgs.writeShellScriptBin name text;
 
+  # A helper function for fish scripts.
+  # This uses writeTextFile to allow for a custom shebang, as
+  # writeShellApplication does not support interpreters other than bash.
+  mkFishScript =
+    name: text:
+    pkgs.writeTextFile {
+      inherit name;
+      # The full script text, including the shebang line.
+      text = "#!${pkgs.fish}/bin/fish\n" + text;
+      # This makes the output file executable.
+      executable = true;
+      # The script will be placed in `bin/` inside the store path.
+      destination = "/bin/${name}";
+    };
+
 in
 {
   # A list of packages to be installed into the user environment.
   home.packages = [
+    # --- GitHub SSH Key Setup Script ---
     (mkScript "setup-github-keys" ''
       #!/usr/bin/env bash
       set -euo pipefail
@@ -63,6 +79,7 @@ in
       echo "   mkdir -p ~/git-repos/configs ~/git-repos/personal ~/git-repos/work ~/git-repos/common"
     '')
 
+    # --- Generic Application Launcher Script ---
     (mkScript "launch_first_available" ''
       #!/usr/bin/env bash
       for cmd in "$@"; do
@@ -73,6 +90,7 @@ in
       done
     '')
 
+    # --- Fuzzel Emoji Picker Script ---
     (mkScript "fuzzel-emoji" ''
       #!/bin/bash
       set -euo pipefail
@@ -80,7 +98,6 @@ in
       MODE="''${1:-type}"
 
       # The emoji data is stored in a variable and piped directly to fuzzel.
-      # This is more robust than the previous method of using sed to read the script file itself.
       DATA="
       😀 grinning face face smile happy joy :D grin
       😃 grinning face with big eyes face happy joy haha :D :) smile funny
@@ -245,158 +262,27 @@ in
       esac
     '')
 
-    (mkScript "record" ''
-      #!/usr/bin/env bash
+    # --- Hyprland Workspace Action Script (Fish) ---
+    (mkFishScript "wsaction" ''
+      if test "$argv[1]" = '-g'
+       set group
+       set -e $argv[1]
+      end
 
-      getdate() {
-          date '+%Y-%m-%d_%H.%M.%S'
-      }
-      getaudiooutput() {
-          pactl list sources | grep 'Name' | grep 'monitor' | cut -d ' ' -f2
-      }
-      getactivemonitor() {
-          hyprctl monitors -j | jq -r '.[] | select(.focused == true) | .name'
-      }
-
-      xdgvideo="$(xdg-user-dir VIDEOS)"
-      if [[ $xdgvideo = "$HOME" ]]; then
-        unset xdgvideo
-      fi
-      mkdir -p "''${xdgvideo:-$HOME/Videos}"
-      cd "''${xdgvideo:-$HOME/Videos}" || exit
-
-      if pgrep wf-recorder > /dev/null; then
-          notify-send "Recording Stopped" "Stopped" -a 'Recorder' &
-          pkill wf-recorder &
-      else
-          if [[ "$1" == "--fullscreen-sound" ]]; then
-              notify-send "Starting recording" 'recording_'"$(getdate)"'.mp4' -a 'Recorder' & disown
-              wf-recorder -o "$(getactivemonitor)" --pixel-format yuv420p -f './recording_'"$(getdate)"'.mp4' -t --audio="$(getaudiooutput)"
-          elif [[ "$1" == "--fullscreen" ]]; then
-              notify-send "Starting recording" 'recording_'"$(getdate)"'.mp4' -a 'Recorder' & disown
-              wf-recorder -o "$(getactivemonitor)" --pixel-format yuv420p -f './recording_'"$(getdate)"'.mp4' -t
-          else
-              if ! region="$(slurp 2>&1)"; then
-                  notify-send "Recording cancelled" "Selection was cancelled" -a 'Recorder' & disown
-                  exit 1
-              fi
-              notify-send "Starting recording" 'recording_'"$(getdate)"'.mp4' -a 'Recorder' & disown
-              if [[ "$1" == "--sound" ]]; then
-                  wf-recorder --pixel-format yuv420p -f './recording_'"$(getdate)"'.mp4' -t --geometry "$region" --audio="$(getaudiooutput)"
-              else
-                  wf-recorder --pixel-format yuv420p -f './recording_'"$(getdate)"'.mp4' -t --geometry "$region"
-              fi
-          fi
-      fi
-    '')
-
-    (mkScript "start_geoclue_agent" ''
-      #!/usr/bin/env bash
-
-      # Check if GeoClue agent is already running
-      if pgrep -f 'geoclue-2.0/demos/agent' > /dev/null; then
-          echo "GeoClue agent is already running."
-          exit 0
-      fi
-
-      # List of known possible GeoClue agent paths
-      AGENT_PATHS="
-      /usr/libexec/geoclue-2.0/demos/agent
-      /usr/lib/geoclue-2.0/demos/agent
-      "
-
-      # Find the first valid agent path
-      for path in $AGENT_PATHS; do
-          if [ -x "$path" ]; then
-              echo "Starting GeoClue agent from: $path"
-              "$path" & # starts in the background
-              exit 0
-          fi
-      done
-
-      # If we got here, none of the paths worked
-      echo "GeoClue agent not found in known paths."
-      echo "Please install GeoClue or update the script with the correct path."
-      exit 1
-    '')
-
-    (mkScript "wsaction" ''
-      #!/usr/bin/env bash
-      curr_workspace="$(hyprctl activeworkspace -j | jq -r ".id")"
-      dispatcher="$1"
-      shift ## The target is now in $1, not $2
-
-      if [[ -z "''${dispatcher}" || "''${dispatcher}" == "--help" || "''${dispatcher}" == "-h" || -z "$1" ]]; then
-        echo "Usage: $0 <dispatcher> <target>"
-        exit 1
-      fi
-      if [[ "$1" == *"+"* || "$1" == *"-"* ]]; then ## Is this something like r+1 or -1?
-        hyprctl dispatch "''${dispatcher}" "$1" ## $1 = workspace id since we shifted earlier.
-      elif [[ "$1" =~ ^[0-9]+$ ]]; then ## Is this just a number?
-        # FIX: Removed extra parentheses that caused a syntax error in bash.
-        target_workspace=$(( (curr_workspace - 1) / 10 * 10 + $1 ))
-        hyprctl dispatch "''${dispatcher}" "''${target_workspace}"
-      else
-       hyprctl dispatch "''${dispatcher}" "$1" ## In case the target in a string, required for special workspaces.
+      if test (count $argv) -ne 2
+       echo 'Wrong number of arguments. Usage: ./wsaction.fish [-g] <dispatcher> <workspace>'
        exit 1
-      fi
-    '')
+      end
 
-    (mkScript "zoom" ''
-      #!/usr/bin/env bash
+      set -l active_ws (hyprctl activeworkspace -j | jq -r '.id')
 
-      # Controls Hyprland's cursor zoom_factor, clamped between 1.0 and 3.0
-
-      # Get current zoom level
-      get_zoom() {
-          hyprctl getoption -j cursor:zoom_factor | jq '.float'
-      }
-
-      # Clamp a value between 1.0 and 3.0
-      clamp() {
-          local val="$1"
-          awk "BEGIN {
-              v = ''$val;
-              if (v < 1.0) v = 1.0;
-              if (v > 3.0) v = 3.0;
-              print v;
-          }"
-      }
-
-      # Set zoom level
-      set_zoom() {
-          local value="$1"
-          clamped=$(clamp "$value")
-          hyprctl keyword cursor:zoom_factor "$clamped"
-      }
-
-      case "$1" in
-          reset)
-              set_zoom 1.0
-              ;;
-          increase)
-              if [[ -z "$2" ]]; then
-                  echo "Usage: $0 increase STEP"
-                  exit 1
-              fi
-              current=$(get_zoom)
-              new=$(awk "BEGIN { print ''$current + ''$2 }")
-              set_zoom "$new"
-              ;;
-          decrease)
-              if [[ -z "$2" ]]; then
-                  echo "Usage: $0 decrease STEP"
-                  exit 1
-              fi
-              current=$(get_zoom)
-              new=$(awk "BEGIN { print ''$current - ''$2 }")
-              set_zoom "$new"
-              ;;
-          *)
-              echo "Usage: $0 {reset|increase STEP|decrease STEP}"
-              exit 1
-              ;;
-      esac
+      if set -q group
+       # Move to group
+       hyprctl dispatch $argv[1] (math "($argv[2] - 1) * 10 + $active_ws % 10")
+      else
+       # Move to ws in group
+       hyprctl dispatch $argv[1] (math "floor(($active_ws - 1) / 10) * 10 + $argv[2]")
+      end
     '')
   ];
 }
