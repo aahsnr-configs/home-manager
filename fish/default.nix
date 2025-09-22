@@ -10,7 +10,7 @@
   # Configure Fish shell and its ecosystem
   programs.fish = {
     enable = true;
-    shellAbbrs = {
+    shellAliases = {
       # General
       vi = "nvim";
       gg = "lazygit";
@@ -55,6 +55,7 @@
     ];
 
     interactiveShellInit = ''
+      set fish_greeting
       # Set VI keybindings
       set -g fish_key_bindings fish_vi_key_bindings
 

@@ -2,7 +2,6 @@
 {
   gtk = {
     enable = true;
-
     cursorTheme = {
       name = "Bibata-Modern-Ice";
       size = 32;
@@ -20,7 +19,7 @@
     # };
 
     iconTheme = {
-      # package = pkgs.papirus-icon-theme;
+      package = pkgs.papirus-icon-theme;
       name = "Papirus-Dark";
     };
 
@@ -55,12 +54,12 @@
 
     gtk4.extraConfig.gtk-application-prefer-dark-theme = 1;
   };
-  # remove for the time-being
-  # qt = {
-  #   enable = true;
-  #   platformTheme.name = "kde";
-  #   style.name = "kvantum";
-  # };
+
+  qt = {
+    enable = true;
+    platformTheme.name = "qt6ct";
+    style.name = "kvantum";
+  };
 
   dconf.settings."org/gnome/desktop/interface".color-scheme = "prefer-dark";
 }
