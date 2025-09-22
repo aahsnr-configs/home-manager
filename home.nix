@@ -10,6 +10,8 @@
       "devdoc"
     ];
 
+    shel.enableFishIntegration = true;
+
     # Set default editor and other environment variables
     sessionVariables = {
       EDITOR = "nvim";
