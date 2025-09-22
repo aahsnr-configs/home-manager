@@ -13,11 +13,6 @@
       flavor = "macchiato";
     };
 
-    btop = {
-      enable = true;
-      flavor = "macchiato";
-    };
-
     delta = {
       enable = true;
       flavor = "macchiato";
@@ -48,20 +43,10 @@
       flavor = "macchiato";
     };
 
-    # starship = {
-    #   enable = true;
-    #   flavor = "macchiato";
-    # };
-
     yazi = {
       enable = true;
       accent = "flamingo";
       flavor = "macchiato";
     };
-
-    # zsh-syntax-highlighting = {
-    #   enable = true;
-    #   flavor = "macchiato";
-    # };
   };
 }

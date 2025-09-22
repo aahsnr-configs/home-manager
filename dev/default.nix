@@ -13,6 +13,13 @@
     emacs-lsp-booster
     tectonic
     texlab
+    textlint
+    lua5_1
+    luarocks
+    proselint
+    tree-sitter
+    wl-clipboard
+    zeromq
   ];
 
   programs.direnv = {
