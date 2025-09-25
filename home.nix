@@ -10,7 +10,7 @@
       "devdoc"
     ];
 
-    shel.enableFishIntegration = true;
+    shell.enableFishIntegration = true;
 
     # Set default editor and other environment variables
     sessionVariables = {
@@ -69,6 +69,7 @@
     ./ripgrep
     ./scripts
     ./starship
+    ./systemd
     ./texlive
     ./theming
     ./tmux
