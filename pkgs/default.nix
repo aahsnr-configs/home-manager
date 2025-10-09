@@ -8,5 +8,6 @@
     nixpkgs-fmt
     zeromq
     go
+    luajit
   ];
 }
